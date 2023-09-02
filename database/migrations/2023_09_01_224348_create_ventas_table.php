@@ -17,8 +17,6 @@ return new class extends Migration
             $table->foreign('trabajador_id')->references('id')->on('trabajadors');
             $table->unsignedBigInteger('cliente_id');
             $table->foreign('cliente_id')->references('id')->on('clientes');
-            $table->unsignedBigInteger('detail_id');
-            $table->foreign('detail_id')->references('id')->on('deta_products');
             $table->integer('cantidad');
             $table->date('date');
             $table->timestamps();
