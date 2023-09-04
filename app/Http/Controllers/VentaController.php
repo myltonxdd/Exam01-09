@@ -51,13 +51,17 @@ class VentaController extends Controller
                 return "Debe tener id de cliente";
             }
             if($body->cantidad){
-                $alumAll = deta_product::where('state','=',1)->where('','=',$body->cliente_id)->get();
-                if(count($alumAll)== 0){
-                    return "Verifica si el id del cliente es correcto o verifica si esta activo el cliente, Por favor vuelve a hacer la consulta con un id de cliente valido";
-                }else{
-                    $nuevaPersona->cliente_id = $body->cliente_id;
+                if($body->cantidad == 0){
+                    return 'La cantidad de productos no puede ser igual a 0';
                 }
-                $nuevaPersona->cantidad = $body->cantidad;
+                else{
+                    $alumAll = deta_product::where('state','=',1)->where('cantidad','>',$body->cantidad)->get();
+                    if(count($alumAll)== 0){
+                        return "Verifica la existe la cantidad de productos o verifica si está activo el producto, Por favor vuelve a hacer la consulta";
+                    }else{
+                        $nuevaPersona->cantidad = $body->cantidad;
+                    }
+                }
             }else{
                 return "Debe tener una cantidad de productos";
             }
