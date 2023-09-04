@@ -74,7 +74,6 @@ class VentaController extends Controller
                         $edita->cantidad = $rest;
                         $edita->save();
                         $nuevaPersona->cantidad = $body->cantidad;
-                        return 'La venta fue agregada';
                     }
                 }
             }else{
