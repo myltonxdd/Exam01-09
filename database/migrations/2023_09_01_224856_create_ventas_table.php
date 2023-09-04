@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('deta_id')->references('id')->on('deta_products');
             $table->integer('cantidad');
             $table->date('date');
+            $table->char('state',1)->default(1);
             $table->timestamps();
         });
     }

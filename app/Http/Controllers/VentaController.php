@@ -50,16 +50,31 @@ class VentaController extends Controller
             }else{
                 return "Debe tener id de cliente";
             }
+            if($body->deta_id){
+                $alumAll = deta_product::where('state','=',1)->where('id','=',$body->deta_id)->get();
+                if(count($alumAll)== 0){
+                    return "Verifica si el id del detalle de producto es correcto o verifica si esta activo el detalle de producto, Por favor vuelve a hacer la consulta con un id de detalle de producto valido";
+                }else{
+                    $nuevaPersona->deta_id = $body->deta_id;
+                }
+            }else{
+                return "Debe tener id de detalle de producto";
+            }
             if($body->cantidad){
                 if($body->cantidad == 0){
                     return 'La cantidad de productos no puede ser igual a 0';
                 }
                 else{
-                    $alumAll = deta_product::where('state','=',1)->where('cantidad','>',$body->cantidad)->get();
+                    $alumAll = deta_product::where('state','=',1)->where('id','=',$body->deta_id)->where('cantidad','>',$body->cantidad)->get();
                     if(count($alumAll)== 0){
                         return "Verifica la existe la cantidad de productos o verifica si está activo el producto, Por favor vuelve a hacer la consulta";
                     }else{
+                        $edita = deta_product::find($body->deta_id);
+                        $rest = $edita->cantidad - $body->cantidad;
+                        $edita->cantidad = $rest;
+                        $edita->save();
                         $nuevaPersona->cantidad = $body->cantidad;
+                        return 'La venta fue agregada';
                     }
                 }
             }else{
